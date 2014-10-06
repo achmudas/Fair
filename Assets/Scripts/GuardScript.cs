@@ -5,7 +5,10 @@ public class GuardScript : MonoBehaviour {
 
 	bool selected = false;
 	private Vector3 target;
-	private float speed = 1f;
+    //private float speed = 1f;
+
+    public float maxSpeed = 1.5f;
+    Vector3 currentPosition;
 
 	// Use this for initialization
 	void Start () {
@@ -25,27 +28,38 @@ public class GuardScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
-			RaycastHit2D hitm= Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
-			if (hitm.collider != null && hitm.collider.gameObject.name.Contains("Guard")) {
-				selected = true;
-			}
+        float moveX = Input.GetAxis("Horizontal");
+        float moveY = Input.GetAxis("Vertical");
 
-			if (selected) {
-				gameObject.transform.renderer.material.color = Color.blue;
-			} else {
-//				gameObject.transform.renderer.material.color = Color.clear;
-			}
+        float deltaX = transform.position.x + moveX;
+        float deltaY = transform.position.y + moveY;
 
-		}
+        Vector3 positionToBe = new Vector3(deltaX, deltaY, -10f);
 
-		// Move to the position
-		if (selected && Input.GetMouseButtonDown (0)) {
-			target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			target.z = transform.position.z;
-		}
-		transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+        transform.position = positionToBe;
+
+//        if (Input.GetMouseButtonDown(0)) {
+//            RaycastHit2D hitm= Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+//            if (hitm.collider != null && hitm.collider.gameObject.name.Contains("Guard")) {
+//                selected = true;
+//            }
+
+//            if (selected) {
+//                gameObject.transform.renderer.material.color = Color.blue;
+//            } else {
+////				gameObject.transform.renderer.material.color = Color.clear;
+//            }
+
+//        }
+
+//        // Move to the position
+//        if (selected && Input.GetMouseButtonDown (0)) {
+//            target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+//            target.z = transform.position.z;
+//        }
+//        transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
 		
 	}
 	

@@ -4,10 +4,14 @@ using System.Collections;
 public class ProgressBarScript : MonoBehaviour {
 
 	private float barDisplay; //current progress
-	public Vector2 pos = new Vector2(73,400);
-	public Vector2 size = new Vector2(700,40);
+    public Vector2 size = new Vector2(700, 40);
+    private Vector2 pos;
+   // private Vector2 pos = new Vector2(15, 20);
+
 	private Texture2D emptyTex;
 	private Texture2D fullTex;
+
+    public int countOfCollidedObjects = 0;
 
 
 
@@ -15,6 +19,7 @@ public class ProgressBarScript : MonoBehaviour {
 	void Start() {
 		emptyTex = (Texture2D) Resources.Load("EmptyProgressBar") as Texture2D;
 		fullTex = (Texture2D) Resources.Load("FullProgressBar") as Texture2D;
+        pos = new Vector2(Screen.width / 2 - size.x / 2, 20f);
 	}
 
 	void OnGUI() {
@@ -31,12 +36,19 @@ public class ProgressBarScript : MonoBehaviour {
 		GUI.EndGroup();
 		GUI.EndGroup();
 	}
-	
+
+    public void increaseColidedNumber() {
+        countOfCollidedObjects++;
+    }
+
+    public void decreaseColidedNumber()
+    {
+        countOfCollidedObjects--;
+    }
+
 	void Update() {
-		//for this example, the bar display is linked to the current time,
-		//however you would set this value based on your desired display
-		//eg, the loading progress, the player's health, or whatever70070
-		barDisplay = 0.5f;
-		//      barDisplay = MyControlScript.staticHealth;
+        Debug.Log(countOfCollidedObjects);
+        barDisplay = 0.0005f * countOfCollidedObjects;
+		
 	}
 }

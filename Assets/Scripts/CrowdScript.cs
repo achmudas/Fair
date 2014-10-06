@@ -12,9 +12,9 @@ public class CrowdScript : MonoBehaviour {
 
 	public bool guardCatched = false;
 
-	const float BOUNDARIES = 0.5f;
+	const float BOUNDARIES = 3.2f;
 
-	private CounterOfCollidedCrowdsScript counterCollObjects;
+//	private CounterOfCollidedCrowdsScript counterCollObjects;
 	private int groupMembers = 0;
 
 	Vector3 currentPosition;
@@ -25,7 +25,7 @@ public class CrowdScript : MonoBehaviour {
 		randomX = Random.Range(-0.01f, 0.01f);
 		randomY = Random.Range(-0.01f, 0.01f);
 
-		counterCollObjects = GameObject.Find ("Guard1").GetComponent("CounterOfCollidedCrowds");
+        //counterCollObjects = GameObject.Find("Guard1").GetComponent("CounterOfCollidedCrowds");
 
 	}
 
@@ -34,7 +34,8 @@ public class CrowdScript : MonoBehaviour {
 			randomX = Random.Range(-0.01f, 0.01f);
 			randomY = Random.Range(-0.01f, 0.01f);
 			guardCatched = false;
-
+            ProgressBarScript counterScript = (ProgressBarScript)GameObject.Find("Guard1").GetComponent("ProgressBarScript");
+            counterScript.decreaseColidedNumber();
 		}
 	}
 
@@ -52,13 +53,15 @@ public class CrowdScript : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D collider) {
-		CrowdScript script;
-		script = (CrowdScript) collider.gameObject.GetComponent ("CrowdScript");
-		if (script != null) {
-			float randomCollidedObjectX = script.randomX;
-			float randomCollidedObjectY = script.randomY;
+        CrowdScript crowdScript;
+        ProgressBarScript counterScript = (ProgressBarScript)GameObject.Find("Guard1").GetComponent("ProgressBarScript");
+		crowdScript = (CrowdScript) collider.gameObject.GetComponent ("CrowdScript");
+		if (crowdScript != null) {
+			float randomCollidedObjectX = crowdScript.randomX;
+			float randomCollidedObjectY = crowdScript.randomY;
 			randomX = randomCollidedObjectX;
 			randomY = randomCollidedObjectY;
+            counterScript.increaseColidedNumber();
 		}
 
 		}

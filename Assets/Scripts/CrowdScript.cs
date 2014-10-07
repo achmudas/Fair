@@ -24,15 +24,33 @@ public class CrowdScript : MonoBehaviour {
 		currentPosition = new Vector3 (Random.Range(BOUNDARIES, -BOUNDARIES), Random.Range(BOUNDARIES, -BOUNDARIES), transform.position.z);
 		randomX = Random.Range(-0.01f, 0.01f);
 		randomY = Random.Range(-0.01f, 0.01f);
-
-        //counterCollObjects = GameObject.Find("Guard1").GetComponent("CounterOfCollidedCrowds");
-
 	}
 
 	private void changeDirectionIfGuardCatched() {
 		if (guardCatched) {
 			randomX = Random.Range(-0.01f, 0.01f);
 			randomY = Random.Range(-0.01f, 0.01f);
+
+            if (Mathf.Sign(randomX) == -1)
+            {
+               currentPosition.x = currentPosition.x - 0.1f;
+            }
+            else
+            {
+                currentPosition.x = currentPosition.x + 0.1f;
+            }
+
+            if (Mathf.Sign(randomY) == -1)
+            {
+                currentPosition.x = currentPosition.x - 0.1f;
+            }
+            else
+            {
+                currentPosition.x = currentPosition.x + 0.1f;
+            }
+
+        
+
 			guardCatched = false;
             ProgressBarScript counterScript = (ProgressBarScript)GameObject.Find("Guard1").GetComponent("ProgressBarScript");
             counterScript.decreaseColidedNumber();

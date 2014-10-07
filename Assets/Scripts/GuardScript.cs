@@ -32,37 +32,40 @@ public class GuardScript : MonoBehaviour {
 
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
-        Debug.Log("X: " + transform.position.x);
-        Debug.Log("Y: " + transform.position.y);
-        
+
         if ((transform.position.x <= BOUNDARIES && transform.position.x >= -BOUNDARIES) && (transform.position.y <= BOUNDARIES && transform.position.y >= -BOUNDARIES))
         {
 
             float deltaX = transform.position.x + (maxSpeed * moveX);
             float deltaY = transform.position.y + (maxSpeed * moveY);
 
-            if (deltaX > BOUNDARIES)
-            {
-                deltaX = BOUNDARIES;
-            }
-            if (deltaX < -BOUNDARIES)
-            {
-                deltaX = -BOUNDARIES;
-            }
-            if (deltaY > BOUNDARIES)
-            {
-                deltaY = BOUNDARIES;
-            }
-            if (deltaY < -BOUNDARIES)
-            {
-                deltaY = -BOUNDARIES;
-            }
+            checkIfBoundaries(ref deltaX, ref deltaY);
 
             Vector3 positionToBe = new Vector3(deltaX, deltaY, -10f);
             transform.position = positionToBe;
         }
        
             
+    }
+
+    private static void checkIfBoundaries(ref float deltaX, ref float deltaY)
+    {
+        if (deltaX > BOUNDARIES)
+        {
+            deltaX = BOUNDARIES;
+        }
+        if (deltaX < -BOUNDARIES)
+        {
+            deltaX = -BOUNDARIES;
+        }
+        if (deltaY > BOUNDARIES)
+        {
+            deltaY = BOUNDARIES;
+        }
+        if (deltaY < -BOUNDARIES)
+        {
+            deltaY = -BOUNDARIES;
+        }
     }
 	
 	// Update is called once per frame

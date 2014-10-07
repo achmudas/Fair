@@ -5,9 +5,10 @@ public class GuardScript : MonoBehaviour {
 
 	bool selected = false;
 	private Vector3 target;
-    //private float speed = 1f;
+    
+    const float BOUNDARIES = 3.2f;
 
-    public float maxSpeed = 1.5f;
+    private float maxSpeed = 0.1f;
     Vector3 currentPosition;
 
 	// Use this for initialization
@@ -25,19 +26,47 @@ public class GuardScript : MonoBehaviour {
 		}
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    void FixedUpdate()
+    {
 
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
+        Debug.Log("X: " + transform.position.x);
+        Debug.Log("Y: " + transform.position.y);
+        
+        if ((transform.position.x <= BOUNDARIES && transform.position.x >= -BOUNDARIES) && (transform.position.y <= BOUNDARIES && transform.position.y >= -BOUNDARIES))
+        {
 
-        float deltaX = transform.position.x + moveX;
-        float deltaY = transform.position.y + moveY;
+            float deltaX = transform.position.x + (maxSpeed * moveX);
+            float deltaY = transform.position.y + (maxSpeed * moveY);
 
-        Vector3 positionToBe = new Vector3(deltaX, deltaY, -10f);
+            if (deltaX > BOUNDARIES)
+            {
+                deltaX = BOUNDARIES;
+            }
+            if (deltaX < -BOUNDARIES)
+            {
+                deltaX = -BOUNDARIES;
+            }
+            if (deltaY > BOUNDARIES)
+            {
+                deltaY = BOUNDARIES;
+            }
+            if (deltaY < -BOUNDARIES)
+            {
+                deltaY = -BOUNDARIES;
+            }
 
-        transform.position = positionToBe;
+            Vector3 positionToBe = new Vector3(deltaX, deltaY, -10f);
+            transform.position = positionToBe;
+        }
+       
+            
+    }
+	
+	// Update is called once per frame
+	void Update () {
 
 //        if (Input.GetMouseButtonDown(0)) {
 //            RaycastHit2D hitm= Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);

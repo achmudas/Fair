@@ -47,8 +47,7 @@ public class ProgressBarScript : MonoBehaviour {
     }
 
 	void Update() {
-        Debug.Log(countOfCollidedObjects);
-        barDisplay = 0.0005f * countOfCollidedObjects;
+        barDisplay = 0.005f * countOfCollidedObjects;
 		
 	}
 }

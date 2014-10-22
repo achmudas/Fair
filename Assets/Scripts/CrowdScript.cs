@@ -17,13 +17,18 @@ public class CrowdScript : MonoBehaviour {
 //	private CounterOfCollidedCrowdsScript counterCollObjects;
 	private int groupMembers = 0;
 
+//	private bool isCollidedWithSomeone = false;
+
 	Vector3 currentPosition;
+
+	public string groupName { get; set;}
 
 	// Use this for initialization
 	void Start () {
 		currentPosition = new Vector3 (Random.Range(BOUNDARIES, -BOUNDARIES), Random.Range(BOUNDARIES, -BOUNDARIES), transform.position.z);
 		randomX = Random.Range(-0.01f, 0.01f);
 		randomY = Random.Range(-0.01f, 0.01f);
+
 	}
 
 	private void changeDirectionIfGuardCatched() {
@@ -49,11 +54,10 @@ public class CrowdScript : MonoBehaviour {
                 currentPosition.x = currentPosition.x + 0.1f;
             }
 
-        
 
 			guardCatched = false;
-            ProgressBarScript counterScript = (ProgressBarScript)GameObject.Find("Guard1").GetComponent("ProgressBarScript");
-            counterScript.decreaseColidedNumber();
+			this.groupName = null;
+//            counterScript.decreaseColidedNumber();
 		}
 	}
 
@@ -72,17 +76,75 @@ public class CrowdScript : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collider) {
         CrowdScript crowdScript;
-        ProgressBarScript counterScript = (ProgressBarScript)GameObject.Find("Guard1").GetComponent("ProgressBarScript");
+//        ProgressBarScript counterScript = (ProgressBarScript)GameObject.Find("Guard1").GetComponent("ProgressBarScript");
 		crowdScript = (CrowdScript) collider.gameObject.GetComponent ("CrowdScript");
 		if (crowdScript != null) {
 			float randomCollidedObjectX = crowdScript.randomX;
 			float randomCollidedObjectY = crowdScript.randomY;
 			randomX = randomCollidedObjectX;
 			randomY = randomCollidedObjectY;
-            counterScript.increaseColidedNumber();
+			if (crowdScript.groupName != null) {
+				if (this.groupName != null) {
+					assignBiggerGroupName(crowdScript.groupName);
+				} else {
+					this.groupName = crowdScript.groupName;
+				}
+
+			} else {
+				string randomGroupName = generateRandomGroupName();
+				crowdScript.groupName = randomGroupName;
+				this.groupName = randomGroupName;
+			}
 		}
 
 		}
+
+	void assignBiggerGroupName(string colliderGroupName) {
+		GameObject [] crowds = GameObject.FindGameObjectsWithTag ("crowd");
+		int colliderGroupNameNumber = 0;
+		int currentObjectGroupNameNumber = 0;
+		foreach (GameObject crowd in crowds) {
+			CrowdScript script = (CrowdScript)crowd.GetComponent("CrowdScript");
+			if (script.groupName != null && script.groupName.Equals(colliderGroupName)) {
+				colliderGroupNameNumber++;
+			} else {
+				currentObjectGroupNameNumber++;
+			}
+		}
+		
+		if (colliderGroupNameNumber > currentObjectGroupNameNumber) {
+			foreach (GameObject crowd in crowds) {
+					CrowdScript script = (CrowdScript)crowd.GetComponent("CrowdScript");
+					if (script.groupName != null && script.groupName.Equals(this.groupName)) {
+						script.groupName = colliderGroupName;
+					}
+			
+			}
+		} else {
+				foreach (GameObject crowd in crowds) {
+					CrowdScript script = (CrowdScript)crowd.GetComponent("CrowdScript");
+					if (script.groupName != null && script.groupName.Equals(colliderGroupName)) {
+						script.groupName = this.groupName;
+					}
+					
+				}
+			}
+	}
+		
+
+	string generateRandomGroupName() {
+		var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//		var stringChars = new char[8];
+		string stringChars = "";
+//		var random = new Random ();
+
+		for (int i = 0; i < 8; i++) {
+			int index = Random.Range(0, chars.Length);
+			stringChars = stringChars + chars[index];
+		}
+		
+		return stringChars.ToString();
+	}
 
 	// Update is called once per frame
 	void Update () {
@@ -97,4 +159,5 @@ public class CrowdScript : MonoBehaviour {
 			randomY = randomY * -1;
 		}
 	}
+	
 }

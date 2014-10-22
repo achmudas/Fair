@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ProgressBarScript : MonoBehaviour {
 
@@ -37,17 +38,50 @@ public class ProgressBarScript : MonoBehaviour {
 		GUI.EndGroup();
 	}
 
-    public void increaseColidedNumber() {
-        countOfCollidedObjects++;
-    }
-
-    public void decreaseColidedNumber()
-    {
-        countOfCollidedObjects--;
-    }
+//    public void increaseColidedNumber() {
+//        countOfCollidedObjects++;
+//    }
+//
+//    public void decreaseColidedNumber()
+//    {
+//        countOfCollidedObjects--;
+//    }
 
 	void Update() {
-        barDisplay = 0.005f * countOfCollidedObjects;
+		float multiplayer = 0f;
+		GameObject [] crowds = GameObject.FindGameObjectsWithTag ("crowd");
+		Dictionary<string, int> groupsWithNumberOfMembers = new Dictionary<string, int> ();
+
+		foreach (GameObject crowd in crowds) {
+			CrowdScript script = (CrowdScript)crowd.GetComponent("CrowdScript");
+			if (script.groupName != null) {
+				if (!groupsWithNumberOfMembers.ContainsKey(script.groupName)) {
+					groupsWithNumberOfMembers.Add(script.groupName, 1);
+					} else {
+					int numberOfMembers = 0;
+					groupsWithNumberOfMembers.TryGetValue(script.groupName, out numberOfMembers);
+					numberOfMembers++;
+					groupsWithNumberOfMembers[script.groupName] = numberOfMembers;
+					}
+			}
+		}
+
+		foreach (int groupSize in groupsWithNumberOfMembers.Values) {
+			if (groupSize > 2 && groupSize <= 4) {
+				multiplayer = multiplayer + 0.2f;
+			} else if (groupSize > 4 && groupSize <= 6) {
+				multiplayer = multiplayer + 0.4f;
+			}
+			else if (groupSize > 6) {
+				multiplayer = multiplayer + 0.6f;
+			}
+			else {
+				multiplayer = multiplayer + 0.0f;
+			}
+		}
+
+
+        barDisplay = 0.05f * multiplayer;
 		
 	}
 }

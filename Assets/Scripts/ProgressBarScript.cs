@@ -55,6 +55,7 @@ public class ProgressBarScript : MonoBehaviour {
 		foreach (GameObject crowd in crowds) {
 			CrowdScript script = (CrowdScript)crowd.GetComponent("CrowdScript");
 			if (script.groupName != null) {
+//				Debug.Log(script.groupName);
 				if (!groupsWithNumberOfMembers.ContainsKey(script.groupName)) {
 					groupsWithNumberOfMembers.Add(script.groupName, 1);
 					} else {
@@ -64,13 +65,19 @@ public class ProgressBarScript : MonoBehaviour {
 					groupsWithNumberOfMembers[script.groupName] = numberOfMembers;
 					}
 			}
+
+
+
 		}
 
 		foreach (int groupSize in groupsWithNumberOfMembers.Values) {
+//			Debug.Log(groupSize);
 			if (groupSize > 2 && groupSize <= 4) {
 				multiplayer = multiplayer + 0.2f;
+//				Debug.Log("3: " + groupSize);
 			} else if (groupSize > 4 && groupSize <= 6) {
 				multiplayer = multiplayer + 0.4f;
+//				Debug.Log("5: " + groupSize);
 			}
 			else if (groupSize > 6) {
 				multiplayer = multiplayer + 0.6f;
@@ -81,7 +88,7 @@ public class ProgressBarScript : MonoBehaviour {
 		}
 
 
-        barDisplay = 0.05f * multiplayer;
-		
+//        barDisplay = barDisplay + multiplayer;
+		barDisplay = 0.05f * multiplayer;
 	}
 }

@@ -148,6 +148,7 @@ public class CrowdScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+//		Debug.Log (this.groupName);
 	}
 
 	void ChangeDirectionIfHitsBoundaries ()

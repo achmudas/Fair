@@ -2,18 +2,13 @@
 using System.Collections;
 
 public class CameraScript : MonoBehaviour {
-
-//	public float maxSpeed = 10f;
+	
 	Vector3 currentPosition;
-
-
-
+	
 	// Use this for initialization
 	void Start () {
 		currentPosition.z = -20f;
 	}
-	
-
 
 	void FixedUpdate() {
 		Vector3 playerPosition = GameObject.Find ("Guard1").transform.position;

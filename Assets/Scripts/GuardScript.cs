@@ -6,7 +6,7 @@ public class GuardScript : MonoBehaviour {
 	bool selected = false;
 	private Vector3 target;
     
-    const float BOUNDARIES = 3.0f;
+    const float BOUNDARIES = 2.9f;
 
     private float maxSpeed = 0.1f;
     Vector3 currentPosition;
@@ -41,7 +41,7 @@ public class GuardScript : MonoBehaviour {
 
             checkIfBoundaries(ref deltaX, ref deltaY);
 
-            Vector3 positionToBe = new Vector3(deltaX, deltaY, -10f);
+            Vector3 positionToBe = new Vector3(deltaX, deltaY, 4f);
             transform.position = positionToBe;
         }
        

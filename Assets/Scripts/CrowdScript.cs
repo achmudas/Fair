@@ -12,7 +12,7 @@ public class CrowdScript : MonoBehaviour {
 
 	public bool guardCatched = false;
 
-	const float BOUNDARIES = 3.0f;
+	const float BOUNDARIES = 2.9f;
 
 //	private CounterOfCollidedCrowdsScript counterCollObjects;
 	private int groupMembers = 0;

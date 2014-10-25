@@ -12,7 +12,7 @@ public class CrowdScript : MonoBehaviour {
 
 	public bool guardCatched = false;
 
-	const float BOUNDARIES = 3.2f;
+	const float BOUNDARIES = 3.0f;
 
 //	private CounterOfCollidedCrowdsScript counterCollObjects;
 	private int groupMembers = 0;
@@ -38,20 +38,26 @@ public class CrowdScript : MonoBehaviour {
 
             if (Mathf.Sign(randomX) == -1)
             {
-               currentPosition.x = currentPosition.x - 0.1f;
+				if (currentPosition.x - 0.1f > -BOUNDARIES) {
+					currentPosition.x = currentPosition.x - 0.1f;
+				}
+               	
             }
             else
             {
-                currentPosition.x = currentPosition.x + 0.1f;
+				if (currentPosition.x + 0.1f < BOUNDARIES)
+                	currentPosition.x = currentPosition.x + 0.1f;
             }
 
             if (Mathf.Sign(randomY) == -1)
             {
-                currentPosition.x = currentPosition.x - 0.1f;
+				if (currentPosition.y - 0.1f > -BOUNDARIES)
+                	currentPosition.y = currentPosition.y - 0.1f;
             }
             else
             {
-                currentPosition.x = currentPosition.x + 0.1f;
+				if (currentPosition.y + 0.1f < BOUNDARIES)
+                	currentPosition.y = currentPosition.y + 0.1f;
             }
 
 

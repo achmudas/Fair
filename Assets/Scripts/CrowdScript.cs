@@ -74,7 +74,7 @@ public class CrowdScript : MonoBehaviour {
 		moveX = currentPosition.x + (speed * randomX);
 		moveY = currentPosition.y + (speed * randomY);
 
-		Vector3 moveToPosition = new Vector3 (moveX, moveY, 0f);
+		Vector3 moveToPosition = new Vector3 (moveX, moveY, transform.position.z);
 		transform.position = moveToPosition;
 
 		currentPosition = moveToPosition;
